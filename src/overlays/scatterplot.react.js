@@ -41,7 +41,9 @@ var ScatterplotOverlay = React.createClass({
     globalOpacity: React.PropTypes.number,
     dotRadius: React.PropTypes.number,
     dotFill: React.PropTypes.string,
-    compositeOperation: React.PropTypes.oneOf(COMPOSITE_TYPES)
+    compositeOperation: React.PropTypes.oneOf(COMPOSITE_TYPES),
+    defaultZoom: React.PropTypes.number,
+    zoom: React.PropTypes.number
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -71,7 +73,8 @@ var ScatterplotOverlay = React.createClass({
     var canvas = ReactDOM.findDOMNode(this);
     var ctx = canvas.getContext('2d');
     var props = this.props;
-    var radius = this.props.dotRadius;
+    var scale = Math.pow(this.props.zoom / this.props.defaultZoom, 6);
+    var radius = this.props.dotRadius * scale;
     var fill = this.props.dotFill;
     ctx.save();
     ctx.scale(pixelRatio, pixelRatio);
